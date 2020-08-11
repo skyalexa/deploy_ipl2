@@ -1,0 +1,30 @@
+function topTenEconomicalBowlersPerYear(deliveries, matches, matchesPlayedPerYear){ 
+    const season = Object.keys(matchesPlayedPerYear);
+    const result = {}
+    for(let year of season){
+    const ids = matches.filter(obj =>obj['season'] === '2015').map(obj=>parseInt(obj.id))
+    const dels = deliveries.filter(del=>ids.includes(parseInt(del['match_id'])))
+    result[year]={}
+       for(let id of ids){
+        for(let del of dels){
+            if(parseInt(del['match_id']) === id){
+                if(result[year][del.bowler]){
+                    result[year][del.bowler].runConceded += parseInt(del['total_runs'])
+                    result[year][del.bowler].bowls += 1
+                }else{
+                    result[year][del.bowler] = {}
+                    result[year][del.bowler].runConceded = parseInt(del['total_runs'])
+                    result[year][del.bowler].bowls = 1
+                }
+            }
+        }
+    }
+    
+    for(let key in result[year]){
+        result[year][key].economuRate = +((result[year][key].runConceded/(result[year][key].bowls)/6).toFixed(2))
+    }
+    }
+        return result
+}
+
+module.exports = topTenEconomicalBowlersPerYear

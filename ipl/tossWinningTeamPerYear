@@ -1,0 +1,20 @@
+function tossWinningTeamPerYear(matches) {
+  const result = {}; 
+  for (let match of matches) {
+    const year = match.season;
+    const toss_winner = match.toss_winner;
+    if (result[year]) {
+        if (result[year][toss_winner]){
+            result[year][toss_winner] += 1;
+        }else {
+            result[year][toss_winner] = 1;
+        }
+    } else {
+      result[year] = {};
+      result[year][toss_winner] = 1;
+    }
+  }
+  return result;
+}
+
+module.exports = tossWinningTeamPerYear;
